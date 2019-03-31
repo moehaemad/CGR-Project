@@ -44,7 +44,6 @@ def put_together(x, y):
         elif (i[0] != last):
             toreturn.append((last,np.average(temp)))
             last = i[0]
-    pdb.set_trace()
     return toreturn
 
 def plot_conv(x_plot, y_plot, *args, **kwargs):
@@ -57,15 +56,26 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
         y_plot (list) of scores
     output: none
     """
-    #toreturn = put_together(x,y)
-    #plt.plot(toreturn[:][0], toreturn[:][1])
-    #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
     line_names = args[0]
-    #######################TEMPORARY###########################################
-    state = y_plot[0]
-    bigls = y_plot[1]
-    newscore = put_together(state, bigls)
+    
+    plt.close()
+    one_to_one = np.arange(0, max(y_plot[0]))
+    if (kwargs.get("bigls") == "yes"):
+        luck = put_together(y_plot[0], y_plot[1])
+        one_to_one = np.arange(0, max(luck[:][1]))
+        
+    for i in range(len(y_plot[1:])):
+        toreturn = put_together(y_plot[0], y_plot[i])
+        plt.plot(toreturn[:][0], toreturn[:][1], color=colours[i], 
+                 label=line_names[i])
+    plt.plot(one_to_one, one_to_one, color='pink', label='Ideal relationship')
+    plt.xlabel("Score on State Scale")
+    plt.ylabel("Score on i E {state scales}")
+    plt.title("Convergent relationship between the State Scale and existing scales")
+    plt.legend()
+    pdb.set_trace()
+    
     plt.close()
     for i in range(len(x_plot)):
         y = y_plot[i]
@@ -73,7 +83,6 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
         m, b = np.polyfit(x_range, y, deg=1)
         fx = b + m*x_range
         plt.plot(x_range, fx, color=colours[i], label=line_names[i])
-#    pdb.set_trace()
     plt.legend(loc='upper right')
     plt.xlabel(kwargs.get("x_name"))
     plt.ylabel(kwargs.get("y_name"))
@@ -106,7 +115,7 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     state_y = score(state_x)
     grcs_y = score(grcs_x)
     bigls_y = score(bigls_x)
-#    pdb.set_trace()
+
 #    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
     #BIGLS only covers luck and GRCS, State 2.0 and State 1.0 cover other
@@ -119,6 +128,9 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
         names = ['State', 'BIGLS', 'GRCS', 'Old State']
         x_plot = [state_x, bigls_x, grcs_y, old_state_x]
         y_plot = [state_y, bigls_y, grcs_y, old_state_y]
+        plot_conv(x_plot, y_plot, names,
+              y_name=kwargs.get("y"), x_name=kwargs.get("x"),
+              title=kwargs.get("title"), bigls=kwargs.get("luck"))
         
     plot_conv(x_plot, y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
