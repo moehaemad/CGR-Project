@@ -61,7 +61,9 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
     
     plt.close()
     one_to_one = np.arange(0, max(y_plot[0]))
-    if (kwargs.get("bigls") == "yes"):
+    if (kwargs.get("luck") == "yes"):
+        #BIGLS shows high scores on luck (which is expected) but the graph is 
+        #   out of range as a result so make the one-to-one relationship clear
         luck = put_together(y_plot[0], y_plot[1])
         one_to_one = np.arange(0, max(luck[:][1]))
         
@@ -71,9 +73,12 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
                  label=line_names[i])
     plt.plot(one_to_one, one_to_one, color='pink', label='Ideal relationship')
     plt.xlabel("Score on State Scale")
-    plt.ylabel("Score on i E {state scales}")
-    plt.title("Convergent relationship between the State Scale and existing scales")
+    plt.ylabel(r"Score on i $\epsilon$ {state scales}")
+    plt.title("Convergent relationship between the State Scale and existing scales"+
+              " for "+ kwargs.get("savefig"))
     plt.legend()
+    plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
+    
     pdb.set_trace()
     
     plt.close()
@@ -104,6 +109,7 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
 
     output: none (just plot graph)
     """
+
     #Get matrices
     old_state_x = args[0]
     state_x = df.iloc[:, ind_state].as_matrix()
@@ -123,18 +129,18 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     names = ['State', 'GRCS', 'Old State']
     x_plot = [state_x, grcs_x, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    
     if (kwargs.get("luck") == "yes"):
         names = ['State', 'BIGLS', 'GRCS', 'Old State']
         x_plot = [state_x, bigls_x, grcs_y, old_state_x]
         y_plot = [state_y, bigls_y, grcs_y, old_state_y]
         plot_conv(x_plot, y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
-              title=kwargs.get("title"), bigls=kwargs.get("luck"))
+              title=kwargs.get("title"), luck=kwargs.get("luck"),
+              savefig = kwargs.get("savefig"))
         
     plot_conv(x_plot, y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
-              title=kwargs.get("title"))
+              title=kwargs.get("title"), savefig = kwargs.get("savefig"))
     
     pdb.set_trace()
     return 0

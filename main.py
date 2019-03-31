@@ -77,7 +77,7 @@ def main():
     #do Convergent analysis for luck
     util.convergent_analysis(read.copy(), state2_ind_luck, [32,41],list(
             range(10,22)), luck_x_1, x="Participant", y="State Scores",
-    title="Linear Regression on participant scores of Luck", luck="yes")
+    title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
     
     #do Convergent analysis for illusion of control
     
