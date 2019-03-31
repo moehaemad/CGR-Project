@@ -64,17 +64,18 @@ def main():
     """Recall old State Scale instead of State Scale 2.0 """
     state_1 = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
     indices = list(range(0,47))
-    
     indices.extend(list(range(73,117)))
     x_1 = util.drop_question(state_1,indices)
-    x_1 = x_1.as_matrix()
-    luck_x_1 = x_1
+    
+    #indices for luck in old state scale
+    luck_mask = [3, 9, 11, 19]
+    luck_x_1 = x_1.iloc[:,luck_mask].as_matrix()
     
     """For convergent analysis """
     state2_ind_luck = [49, 56, 58, 67]
     #do Convergent analysis for luck
     util.convergent_analysis(read.copy(), state2_ind_luck, [32,41],list(
-            range(10,22)), x_1, x="Participant", y="State Scores",
+            range(10,22)), luck_x_1, x="Participant", y="State Scores",
     title="Linear Regression on participant scores of Luck", luck="yes")
     
     #do Convergent analysis for illusion of control

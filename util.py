@@ -21,6 +21,32 @@ def score(x):
         toreturn.append(np.sum(x[i,:]))
     return toreturn
 
+def put_together(x, y):
+    """
+    Make list of tuples such that the x values are unique and y values are an
+        average. This is to graph state as x-axis and other scales as y_axis
+        to show linear relationship
+    input:
+        x (list) of state score answers
+        y (list) of grcs/bigls/old state score answers
+    output:
+        to_return (list) of x/y combined as per mentioned above
+    """
+    toreturn = []
+    tuples = list(zip(x,y))
+    #can sort on other axis via sorted(list, key=lambda x:x[1])
+    tuples = sorted(tuples)
+    last = 0
+    temp = []
+    for i in tuples:
+        if (i[0] == last):
+            temp.append(i[1])
+        elif (i[0] != last):
+            toreturn.append((last,np.average(temp)))
+            last = i[0]
+    pdb.set_trace()
+    return toreturn
+
 def plot_conv(x_plot, y_plot, *args, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
@@ -31,10 +57,15 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
         y_plot (list) of scores
     output: none
     """
+    
+    
     #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
     line_names = args[0]
-#    pdb.set_trace()
+    #######################TEMPORARY###########################################
+    state = y_plot[0]
+    bigls = y_plot[1]
+    newscore = put_together(state, bigls)
     plt.close()
     for i in range(len(x_plot)):
         y = y_plot[i]
