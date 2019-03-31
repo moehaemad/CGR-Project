@@ -74,7 +74,8 @@ def main():
     state2_ind_luck = [49, 56, 58, 67]
     #do Convergent analysis for luck
     util.convergent_analysis(read.copy(), state2_ind_luck, [32,41],list(
-            range(10,22)), x_1) 
+            range(10,22)), x_1, x="Participant", y="State Scores",
+    title="Linear Regression on participant scores of Luck") 
     
 # =============================================================================
 #     Dropping questions
