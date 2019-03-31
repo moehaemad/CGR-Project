@@ -54,7 +54,6 @@ def plot_conv(x_plot, y_plot):
     
 
     plt.show()
-    pdb.set_trace()
     
     return 0
 

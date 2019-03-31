@@ -26,7 +26,6 @@ def initial_efa(x, num_factors):
     return fa, loadings_reg, loadings_to_view, loadings_corr
 
 def main():
-#    read = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
     read = load_dataset("/media/veracrypt1/State 2.0 CSV.csv")
     filepath = os.path.abspath(__file__)[0:-7]
 
@@ -56,19 +55,23 @@ def main():
     anti_image_matrix, kmo_score = util.scree_test(fa, x, number_of_factors)
 
 
-    #get correlation matrix 
+    #get correlation matrix  to view in variable explorer
     correlation = util.trim(x.corr(), 0.3)
     multicollinearity_corr = util.trim(x.corr(), 0.8)
     
     
     #Do convergent analysis on State Scale 2.0
     """Recall old State Scale instead of State Scale 2.0 """
-    read = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
+    state_1 = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
+    indices = list(range(0,47))
+    indices.extend(list(range(73,117)))
+    x_1 = util.drop_question(state_1,indices)
+    x_1 = x_1.as_matrix()
     """For convergent analysis """
     state2_ind_luck = [49, 56, 58, 67]
     #do Convergent analysis for luck
     util.convergent_analysis(read.copy(), state2_ind_luck, [32,41],list(
-            range(10,22))) 
+            range(10,22)), [x_1]) 
     
 # =============================================================================
 #     Dropping questions
