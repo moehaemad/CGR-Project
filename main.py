@@ -80,6 +80,12 @@ def main():
     title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
     
     #do Convergent analysis for illusion of control
+    grcs = ['GRCS-IB: interpretive control/bias', 'GRCS-IC: illusion of control',
+            'GRCS-PC: predictive control', 'GRCS-GE: gambling related expectancies',
+            'GRCS-IS: perceived inability to stop gambling']
+    grcs_indices = [[-1],[-2],[-3],[-4],[-5]]
+    
+    pdb.set_trace()
     
 # =============================================================================
 #     Dropping questions: part of efa procedure
@@ -91,7 +97,6 @@ def main():
     #indexes are 10-21
     util.drop_question(x, [20]) #remove @21
     #Update: 5 factors still remain
-    pdb.set_trace()
 
 if __name__ == "__main__":
     

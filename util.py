@@ -49,7 +49,7 @@ def put_together(x, y):
             last = i[0]
     return toreturn
 
-def plot_conv(x_plot, y_plot, *args, **kwargs):
+def plot_conv(y_plot, *args, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
         matrix
@@ -83,10 +83,10 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
     plt.legend()
     plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
     
-    pdb.set_trace()
+
     
     plt.figure(2, dpi=dp)
-    for i in range(len(x_plot)):
+    for i in range(len(y_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
         m, b = np.polyfit(x_range, y, deg=1)
@@ -96,7 +96,8 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
     plt.xlabel(kwargs.get("x_name"))
     plt.ylabel(kwargs.get("y_name"))
     plt.title(kwargs.get("title"))
-    plt.show()
+    plt.savefig(my_path + "/figures/all_scales_and"+kwargs.get("savefig")+".png")
+    pdb.set_trace()
     
     return 0
 
@@ -118,13 +119,15 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     old_state_x = args[0]
     state_x = df.iloc[:, ind_state].as_matrix()
     grcs_x = df.iloc[:, ind_grcs].as_matrix()
-    bigls_x = df.iloc[:, ind_bigls].as_matrix()
     
+    if (kwargs.get("luck") == "yes"):    
+        bigls_x = df.iloc[:, ind_bigls].as_matrix()
+        bigls_y = score(bigls_x)
+        
     #calculate scores
     old_state_y = score(old_state_x)
     state_y = score(state_x)
     grcs_y = score(grcs_x)
-    bigls_y = score(bigls_x)
 
 #    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
@@ -142,11 +145,10 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
               title=kwargs.get("title"), luck=kwargs.get("luck"),
               savefig = kwargs.get("savefig"))
         
-    plot_conv(x_plot, y_plot, names,
+    plot_conv(y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"), savefig = kwargs.get("savefig"))
     
-    pdb.set_trace()
     return 0
 
 def mean_graph(x, plot_std="yes"):
@@ -217,7 +219,6 @@ def efa_clean(x):
     #bartlett returns "T" which is the test statistic and p-value
     #perform the bartlett test on each individual input
 #    _, bart_p = bartlett(*xcorr)
-#    pdb.set_trace()
 #    return [det_bool, kmo_val, bart_p]
     return [det_bool, kmo_val]
 
@@ -300,7 +301,6 @@ def report_participant_stats(read, columns):
     plt.title("Distribution of Female/Male Participants")
     plt.savefig(my_path + '/figures/sex_graph.png')
     
-#    pdb.set_trace()
     """Ethnicity"""
     eth = read[columns[1]].as_matrix()
     eth, eth_counts = np.unique(eth, return_counts=True)
