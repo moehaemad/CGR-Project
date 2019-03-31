@@ -57,8 +57,8 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
         y_plot (list) of scores
     output: none
     """
-    
-    
+    #toreturn = put_together(x,y)
+    #plt.plot(toreturn[:][0], toreturn[:][1])
     #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
     line_names = args[0]
