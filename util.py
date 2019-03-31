@@ -58,7 +58,7 @@ def plot_conv(x_plot, y_plot):
     return 0
 
 def convergent_analysis(df, ind_state, ind_grcs=[], 
-                        ind_bigls=[], *old_sate):
+                        ind_bigls=[], *args):
     """
     purpose is to compare the existing scales BIGLS & GRCS with those questions
     measuring the related latent factors
@@ -70,19 +70,22 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
         
     output: none (just plot graph)
     """
-
+    #Get matrices
+    old_state_x = args[0]
     state_x = df.iloc[:, ind_state].as_matrix()
     grcs_x = df.iloc[:, ind_grcs].as_matrix()
     bigls_x = df.iloc[:, ind_bigls].as_matrix()
+    
     #calculate scores
+    old_state_y = score(old_state_x)
     state_y = score(state_x)
     grcs_y = score(grcs_x)
     bigls_y = score(bigls_x)
 #    pdb.set_trace()
 #    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
-    x_plot = [state_x, bigls_x, grcs_y]
-    y_plot = [state_y, bigls_y, grcs_y]
+    x_plot = [state_x, bigls_x, grcs_y, old_state_x]
+    y_plot = [state_y, bigls_y, grcs_y, old_state_y]
     plot_conv(x_plot, y_plot)
     
     pdb.set_trace()
