@@ -28,7 +28,7 @@ def initial_efa(x, num_factors):
 def main():
 #    read = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
     read = load_dataset("/media/veracrypt1/State 2.0 CSV.csv")
-    filepath = os.path.abspath(__file__)[0:67]
+    filepath = os.path.abspath(__file__)[0:-7]
 
     other_ind = list(range(0,47))
     other_ind.extend(list(range(73,100)))

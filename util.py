@@ -8,7 +8,7 @@ import pdb
 import famissing
 import os
 
-my_path = os.path.abspath(__file__)[0:67]
+my_path = os.path.abspath(__file__)[0:-7]
 
 def score(x):
     """
