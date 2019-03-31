@@ -9,6 +9,9 @@ import famissing
 import os
 
 my_path = os.path.abspath(__file__)[0:-7]
+#display per inch (dpi) for figures
+dp = 100
+plotsize = (12,6)
 
 def score(x):
     """
@@ -60,6 +63,7 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
     line_names = args[0]
     
     plt.close()
+    plt.figure(1, dpi=dp, figsize=plotsize)
     one_to_one = np.arange(0, max(y_plot[0]))
     if (kwargs.get("luck") == "yes"):
         #BIGLS shows high scores on luck (which is expected) but the graph is 
@@ -81,7 +85,7 @@ def plot_conv(x_plot, y_plot, *args, **kwargs):
     
     pdb.set_trace()
     
-    plt.close()
+    plt.figure(2, dpi=dp)
     for i in range(len(x_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
