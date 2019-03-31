@@ -50,7 +50,7 @@ def plot_conv(x_plot, y_plot, **kwargs):
     return 0
 
 def convergent_analysis(df, ind_state, ind_grcs=[], 
-                        ind_bigls=[], *args):
+                        ind_bigls=[], *args, **kwargs):
     """
     purpose is to compare the existing scales BIGLS & GRCS with those questions
     measuring the related latent factors
@@ -78,8 +78,8 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     
     x_plot = [state_x, bigls_x, grcs_y, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    plot_conv(x_plot, y_plot, y_name="State Scores", x_name="Participant",
-              title="Linear Regression on participant scores of Luck")
+    plot_conv(x_plot, y_plot, y_name=kwargs.get("x"), x_name=kwargs.get("y"),
+              title=kwargs.get("title"))
     
     pdb.set_trace()
     return 0
