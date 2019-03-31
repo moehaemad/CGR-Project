@@ -271,33 +271,3 @@ def report_participant_stats(read, columns):
     plt.xlabel("Number of years")
     plt.ylabel("Number of Participants")
     plt.show()
-###################TODO#################################################################################
-    #Create graph for gambling experiences
-    
-    
-    
-    
-# =============================================================================
-# PROBABLY NOT RELEVANT SINCE EFA IS BEING USED EFFECTIVELY
-# =============================================================================
-    
-# =============================================================================
-# def dbscan(x):
-#     #fit the original matrix to DBSCAN without accurate eps
-#     x_train, xtest = LeaveOneOut().split(x)
-#     index, db, labels = DBSCAN(eps=2)
-#     db.fit(x_train)
-# #    db_score = db.predict(x_test)
-#     #TODO: plot using matplot lib
-#     return 0
-# 
-# def pca(x, factors=0):
-#     pca  = PCA(n_components=factors)
-#     pca.fit(x)
-# #    pca.fit_transform(x)
-#     index = np.arange(factors)
-#     plt.bar(index, pca.explained_variance_ratio_)
-#     plt.show()
-# #    pdb.set_trace()
-#     return 0
-# =============================================================================
