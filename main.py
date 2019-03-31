@@ -67,6 +67,8 @@ def main():
     indices.extend(list(range(73,117)))
     x_1 = util.drop_question(state_1,indices)
     x_1 = x_1.as_matrix()
+    luck_x_1 = x_1
+    
     """For convergent analysis """
     state2_ind_luck = [49, 56, 58, 67]
     #do Convergent analysis for luck

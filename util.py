@@ -21,7 +21,7 @@ def score(x):
         toreturn.append(np.sum(x[i,:]))
     return toreturn
 
-def plot_conv(x_plot, y_plot):
+def plot_conv(x_plot, y_plot, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
         matrix
@@ -33,26 +33,17 @@ def plot_conv(x_plot, y_plot):
     """
     #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
-# =============================================================================
-# #    x_train, x_test, y_train, y_test = train_test_split(x, y, test_size=0.5,
-# #                                                        train_size=0.5)
-# #    regr = linear_model.LinearRegression()
-# #    regr.fit(x_train, y_train)
-# #    predict = regr.predict(x_test)
-# #    plt.scatter(x_test[:,0], y_test, color = 'black')
-# #    plt.plot(x_test[:,0], predict, color='blue', linewidth=3)
-# =============================================================================
-    
-#    y.sort()
+    pdb.set_trace()
     for i in range(len(x_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
         m, b = np.polyfit(x_range, y, deg=1)
         fx = b + m*x_range
         plt.plot(x_range, fx, color=colours[i])
-    plt.show()
-    
-
+    pdb.set_trace()
+#    plt.xlabel = kwargs.get("x")
+#    plt.ylabel = kwargs.get("y")
+#    plt.title = kwargs.get("title")
     plt.show()
     
     return 0
@@ -86,7 +77,8 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     
     x_plot = [state_x, bigls_x, grcs_y, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    plot_conv(x_plot, y_plot)
+    plot_conv(x_plot, y_plot, y="State Scores", x="Participant",
+              title="Linear Regression on participant scores of Luck")
     
     pdb.set_trace()
     return 0
