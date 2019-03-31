@@ -21,7 +21,7 @@ def score(x):
         toreturn.append(np.sum(x[i,:]))
     return toreturn
 
-def plot_conv(x_plot, y_plot, **kwargs):
+def plot_conv(x_plot, y_plot, *args, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
         matrix
@@ -33,6 +33,7 @@ def plot_conv(x_plot, y_plot, **kwargs):
     """
     #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
+    line_names = args[0]
 #    pdb.set_trace()
     plt.close()
     for i in range(len(x_plot)):
@@ -40,8 +41,9 @@ def plot_conv(x_plot, y_plot, **kwargs):
         x_range = np.arange(len(y))
         m, b = np.polyfit(x_range, y, deg=1)
         fx = b + m*x_range
-        plt.plot(x_range, fx, color=colours[i])
+        plt.plot(x_range, fx, color=colours[i], label=line_names[i])
 #    pdb.set_trace()
+    plt.legend(loc='upper right')
     plt.xlabel(kwargs.get("x_name"))
     plt.ylabel(kwargs.get("y_name"))
     plt.title(kwargs.get("title"))
@@ -59,7 +61,7 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
         ind_state (list) indices of the questions in the questionaire
         ind_grcs (list) indices of the questions ... GRCS
         ind_bigls (list) indices of the questions ... BIGLS
-        
+
     output: none (just plot graph)
     """
     #Get matrices
@@ -78,7 +80,8 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     
     x_plot = [state_x, bigls_x, grcs_y, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    plot_conv(x_plot, y_plot, y_name=kwargs.get("x"), x_name=kwargs.get("y"),
+    plot_conv(x_plot, y_plot, ['State', 'BIGLS', 'GRCS', 'Old State'],
+              y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"))
     
     pdb.set_trace()
