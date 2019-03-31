@@ -78,9 +78,18 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
 #    pdb.set_trace()
 #    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
-    x_plot = [state_x, bigls_x, grcs_y, old_state_x]
+    #BIGLS only covers luck and GRCS, State 2.0 and State 1.0 cover other
+        #erroneous beliefs
+    names = ['State', 'GRCS', 'Old State']
+    x_plot = [state_x, grcs_x, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    plot_conv(x_plot, y_plot, ['State', 'BIGLS', 'GRCS', 'Old State'],
+    
+    if (kwargs.get("luck") == "yes"):
+        names = ['State', 'BIGLS', 'GRCS', 'Old State']
+        x_plot = [state_x, bigls_x, grcs_y, old_state_x]
+        y_plot = [state_y, bigls_y, grcs_y, old_state_y]
+        
+    plot_conv(x_plot, y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"))
     
