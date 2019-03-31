@@ -33,17 +33,18 @@ def plot_conv(x_plot, y_plot, **kwargs):
     """
     #Make input into list x_y_list
     colours = ['blue','red', 'purple', 'black']
-    pdb.set_trace()
+#    pdb.set_trace()
+    plt.close()
     for i in range(len(x_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
         m, b = np.polyfit(x_range, y, deg=1)
         fx = b + m*x_range
         plt.plot(x_range, fx, color=colours[i])
-    pdb.set_trace()
-#    plt.xlabel = kwargs.get("x")
-#    plt.ylabel = kwargs.get("y")
-#    plt.title = kwargs.get("title")
+#    pdb.set_trace()
+    plt.xlabel(kwargs.get("x_name"))
+    plt.ylabel(kwargs.get("y_name"))
+    plt.title(kwargs.get("title"))
     plt.show()
     
     return 0
@@ -77,7 +78,7 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     
     x_plot = [state_x, bigls_x, grcs_y, old_state_x]
     y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-    plot_conv(x_plot, y_plot, y="State Scores", x="Participant",
+    plot_conv(x_plot, y_plot, y_name="State Scores", x_name="Participant",
               title="Linear Regression on participant scores of Luck")
     
     pdb.set_trace()

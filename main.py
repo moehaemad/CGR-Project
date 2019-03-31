@@ -64,6 +64,7 @@ def main():
     """Recall old State Scale instead of State Scale 2.0 """
     state_1 = load_dataset("/media/veracrypt1/State_Mar21_CleanedData.csv")
     indices = list(range(0,47))
+    
     indices.extend(list(range(73,117)))
     x_1 = util.drop_question(state_1,indices)
     x_1 = x_1.as_matrix()
