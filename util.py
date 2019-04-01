@@ -87,7 +87,7 @@ def plot_conv(y_plot, *args, **kwargs):
     
 
     plt.close()
-    plt.figure(2, dpi=dp)
+    plt.figure(2, dpi=150, figsize=(8,4))
     for i in range(len(y_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))

@@ -85,6 +85,7 @@ def main():
 
     luck_x_1 = prep_state1(x_1, state1_indices[1])
     ioc_x_1 = prep_state1(x_1, state1_indices[2])
+    ge_x_1 = prep_state1(x_1, state1_indices[0]+state1_indices[3])
     
     #0 -> GRCS-IB: interpretive control/bias
     #1 -> GRCS-IC: illusion of control
@@ -109,12 +110,12 @@ def main():
 #    state1_indices = [[47,59,72], [56,58,66], [48,49,53,57,60,68,69], [51,54,61],
 #                      [52,55,63,67,71], [50,62,64,65,70]]    
     """For convergent analysis """
-    state2_ind_luck = [49, 56, 58, 67]
+#    state2_ind_luck = [49, 56, 58, 67]
     #do Convergent analysis for luck
     
-#    util.convergent_analysis(read.copy(), state2_indices[1], [32,41],list(
-#            range(10,22)), luck_x_1, x="Participant", y="State Scores",
-#    title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
+    util.convergent_analysis(read.copy(), state2_indices[1], [32,41],list(
+            range(10,22)), luck_x_1, x="Participant", y="State Scores",
+    title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
     
     #do Convergent analysis for illusion of control
     plt.close()
@@ -122,6 +123,13 @@ def main():
             [], ioc_x_1, x="Participant", y="State Scores",
             title="Linear Regression on participant scores of IOC", luck="no",
             savefig=state2_names[2])
+    
+    plt.close()
+    util.convergent_analysis(read.copy(), state2_indices[0]+state2_indices[3],
+            grcs_indices[3], [], ge_x_1, x= "Participant",
+            y="State Scores", title="Linear Regression on participant scores of " +
+            "Gambling Related Expectancies", luck="no", savefig="Gambling"+
+            " related expectancies")
 # =============================================================================
 #     Dropping questions: part of efa procedure
 # =============================================================================
