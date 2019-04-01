@@ -61,10 +61,12 @@ def plot_conv(y_plot, *args, **kwargs):
     """
     colours = ['blue','red', 'purple', 'black']
     line_names = args[0]
-    
+
     plt.close()
     plt.figure(1, dpi=dp, figsize=plotsize)
-    one_to_one = np.arange(0, max(y_plot[0]))
+
+#    one_to_one = np.arange(0, max(y_plot[0]))
+    one_to_one = np.arange(0,5)
     if (kwargs.get("luck") == "yes"):
         #BIGLS shows high scores on luck (which is expected) but the graph is 
         #   out of range as a result so make the one-to-one relationship clear
@@ -84,7 +86,7 @@ def plot_conv(y_plot, *args, **kwargs):
     plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
     
 
-    
+    plt.close()
     plt.figure(2, dpi=dp)
     for i in range(len(y_plot)):
         y = y_plot[i]
@@ -97,7 +99,6 @@ def plot_conv(y_plot, *args, **kwargs):
     plt.ylabel(kwargs.get("y_name"))
     plt.title(kwargs.get("title"))
     plt.savefig(my_path + "/figures/all_scales_and"+kwargs.get("savefig")+".png")
-    pdb.set_trace()
     
     return 0
 
@@ -120,27 +121,30 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
     state_x = df.iloc[:, ind_state].as_matrix()
     grcs_x = df.iloc[:, ind_grcs].as_matrix()
     
-    if (kwargs.get("luck") == "yes"):    
-        bigls_x = df.iloc[:, ind_bigls].as_matrix()
-        bigls_y = score(bigls_x)
-        
     #calculate scores
     old_state_y = score(old_state_x)
     state_y = score(state_x)
     grcs_y = score(grcs_x)
+    
+    y_plot = [state_y, grcs_y, old_state_y]
+    
+    if (kwargs.get("luck") == "yes"):    
+        bigls_x = df.iloc[:, ind_bigls].as_matrix()
+        bigls_y = score(bigls_x)
+        y_plot = [state_y, bigls_y, grcs_y, old_state_y]
+        
 
 #    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
     #BIGLS only covers luck and GRCS, State 2.0 and State 1.0 cover other
         #erroneous beliefs
     names = ['State', 'GRCS', 'Old State']
-    x_plot = [state_x, grcs_x, old_state_x]
-    y_plot = [state_y, bigls_y, grcs_y, old_state_y]
+#    x_plot = [state_x, grcs_x, old_state_x]
     if (kwargs.get("luck") == "yes"):
         names = ['State', 'BIGLS', 'GRCS', 'Old State']
-        x_plot = [state_x, bigls_x, grcs_y, old_state_x]
+#        x_plot = [state_x, bigls_x, grcs_y, old_state_x]
         y_plot = [state_y, bigls_y, grcs_y, old_state_y]
-        plot_conv(x_plot, y_plot, names,
+        plot_conv(y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"), luck=kwargs.get("luck"),
               savefig = kwargs.get("savefig"))

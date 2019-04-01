@@ -8,6 +8,18 @@ def load_dataset(filename):
     with open(os.path.join (filename), 'rb') as f:
         return pd.read_csv(f, parse_dates = True)
     
+def prep_state1 (x, mask):
+    """
+    input:
+        x (DataFrame) is the survey we want to extract questions from
+        mask (list) is the indices for which the arrays are taken from
+    """
+    x = x.copy()
+    #return so that I can index as arrays are indexed instead of question #'s
+    mask = [x - 1 for x in mask]
+    toreturn = x.iloc[:,mask].as_matrix()
+    return toreturn
+    
 def initial_efa(x, num_factors):
     """
     Perform EFA analysis and return factor loadings in the view that is
@@ -66,27 +78,50 @@ def main():
     indices = list(range(0,47))
     indices.extend(list(range(73,117)))
     x_1 = util.drop_question(state_1,indices)
-    #sorted([('abc', 121),('abc', 231),('abc', 148), ('abc',221)], key=lambda x: x[1])
     
     #indices for luck in old state scale
-    luck_mask = [3, 9, 11, 19]
-    luck_x_1 = x_1.iloc[:,luck_mask].as_matrix()
+    state1_indices = [[1,13,26], [4,10,12,20], [2,3,7,11,14,22,23], [5,8,15],
+                      [6,9,17,21,25]]
+
+    luck_x_1 = prep_state1(x_1, state1_indices[1])
+    ioc_x_1 = prep_state1(x_1, state1_indices[2])
     
-    """For convergent analysis """
-    state2_ind_luck = [49, 56, 58, 67]
-    #do Convergent analysis for luck
-    util.convergent_analysis(read.copy(), state2_ind_luck, [32,41],list(
-            range(10,22)), luck_x_1, x="Participant", y="State Scores",
-    title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
-    
-    #do Convergent analysis for illusion of control
+    #0 -> GRCS-IB: interpretive control/bias
+    #1 -> GRCS-IC: illusion of control
+    #2 -> GRCS-PC: predictive control
+    #3 -> GRCS-GE: gambling related expectancies
+    #4 -> GRCS-IS: perceived inability to stop gambling
     grcs = ['GRCS-IB: interpretive control/bias', 'GRCS-IC: illusion of control',
             'GRCS-PC: predictive control', 'GRCS-GE: gambling related expectancies',
             'GRCS-IS: perceived inability to stop gambling']
     grcs_indices = [[-1],[-2],[-3],[-4],[-5]]
+    #0 -> Hot hand fallacy
+    #1 -> Belief in luck
+    #2 -> Illusion of Control
+    #3 -> Gamblers fallacy
+    #4 -> Anthropomorphic
+    #5 -> Supernatural
+    state2_names = ['Hot Hand Fallacy', 'Belief in luck', 'Illusion of Control',
+                   'Gambler\'s fallacy', 'Athropomorphic', 'Supernatural']
+    state2_indices = [[47,59,72], [49,56,58,67], [48,52,54,57,61,69,70], [52,52,55,64],
+            [51,53,63,66,68], [60,62,65,71]]
+    #Old state indices have the same names as state 2.0 names
+#    state1_indices = [[47,59,72], [56,58,66], [48,49,53,57,60,68,69], [51,54,61],
+#                      [52,55,63,67,71], [50,62,64,65,70]]    
+    """For convergent analysis """
+    state2_ind_luck = [49, 56, 58, 67]
+    #do Convergent analysis for luck
     
-    pdb.set_trace()
+#    util.convergent_analysis(read.copy(), state2_indices[1], [32,41],list(
+#            range(10,22)), luck_x_1, x="Participant", y="State Scores",
+#    title="Linear Regression on participant scores of Luck", luck="yes", savefig="luck")
     
+    #do Convergent analysis for illusion of control
+    plt.close()
+    util.convergent_analysis(read.copy(), state2_indices[2], grcs_indices[1],
+            [], ioc_x_1, x="Participant", y="State Scores",
+            title="Linear Regression on participant scores of IOC", luck="no",
+            savefig=state2_names[2])
 # =============================================================================
 #     Dropping questions: part of efa procedure
 # =============================================================================
@@ -97,7 +132,7 @@ def main():
     #indexes are 10-21
     util.drop_question(x, [20]) #remove @21
     #Update: 5 factors still remain
-
+    pdb.set_trace()
 if __name__ == "__main__":
     
     main()
