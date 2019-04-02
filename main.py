@@ -26,7 +26,7 @@ def initial_efa(x, num_factors):
     appropriate for visual inspection
     """
         #Do EFA using factor analyzer package
-    number_of_factors = 12
+    number_of_factors = num_factors
     fa = util.efa(x, factors=number_of_factors)
     
     #make loadings
@@ -59,6 +59,12 @@ def main():
     number_of_factors = 5
     fa, loadings_reg, loadings_to_view, loadings_corr = initial_efa(x, 
                                                         number_of_factors)
+    plt.close()
+    plt.matshow(loadings_to_view)
+    plt.title("Visual representation of the factor loadings")
+    plt.xlabel("Factors")
+    plt.ylabel("Questions")
+    plt.savefig(filepath + "/figures/factor_loadings.png")
     
     #Calculate mean and plot the graph on the given matrix
     util.mean_graph(x, plot_std="no")

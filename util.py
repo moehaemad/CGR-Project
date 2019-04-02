@@ -11,7 +11,7 @@ import os
 my_path = os.path.abspath(__file__)[0:-7]
 #display per inch (dpi) for figures
 dp = 100
-plotsize = (12,6)
+plotsize = (11,6)
 
 def score(x):
     """
@@ -63,8 +63,9 @@ def plot_conv(y_plot, *args, **kwargs):
     line_names = args[0]
 
     plt.close()
-    plt.figure(1, dpi=dp, figsize=plotsize)
-
+    fig, axis = plt.subplots(2,1, dpi=dp, figsize=plotsize)
+#    plt.figure(1, dpi=dp, figsize=plotsize)
+    
 #    one_to_one = np.arange(0, max(y_plot[0]))
     one_to_one = np.arange(0,5)
     if (kwargs.get("luck") == "yes"):
@@ -75,29 +76,30 @@ def plot_conv(y_plot, *args, **kwargs):
         
     for i in range(len(y_plot[1:])):
         toreturn = put_together(y_plot[0], y_plot[i])
-        plt.plot(toreturn[:][0], toreturn[:][1], color=colours[i], 
+        axis[0].plot(toreturn[:][0], toreturn[:][1], color=colours[i], 
                  label=line_names[i])
-    plt.plot(one_to_one, one_to_one, color='pink', label='Ideal relationship')
-    plt.xlabel("Score on State Scale")
-    plt.ylabel(r"Score on i $\epsilon$ {state scales}")
-    plt.title("Convergent relationship between the State Scale and existing scales"+
+    axis[0].plot(one_to_one, one_to_one, color='pink', label='Ideal relationship')
+    axis[0].set_xlabel("Score on State Scale")
+    axis[0].set_ylabel(r"Score on i $\epsilon$ {state scales}")
+    axis[0].set_title("Convergent relationship between the State Scale and existing scales"+
               " for "+ kwargs.get("savefig"))
-    plt.legend()
-    plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
+    axis[0].legend()
+#    plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
     
 
-    plt.close()
-    plt.figure(2, dpi=150, figsize=(8,4))
+#    plt.close()
+#    plt.figure(2, dpi=150, figsize=(8,4))
     for i in range(len(y_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
         m, b = np.polyfit(x_range, y, deg=1)
         fx = b + m*x_range
-        plt.plot(x_range, fx, color=colours[i], label=line_names[i])
-    plt.legend(loc='upper right')
-    plt.xlabel(kwargs.get("x_name"))
-    plt.ylabel(kwargs.get("y_name"))
-    plt.title(kwargs.get("title"))
+        axis[1].plot(x_range, fx, color=colours[i], label=line_names[i])
+    axis[1].legend(loc='upper right')
+    axis[1].set_xlabel(kwargs.get("x_name"))
+    axis[1].set_ylabel(kwargs.get("y_name"))
+    axis[1].set_title(kwargs.get("title"))
+    fig.tight_layout()
     plt.savefig(my_path + "/figures/all_scales_and"+kwargs.get("savefig")+".png")
     
     return 0
