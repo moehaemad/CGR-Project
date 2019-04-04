@@ -49,6 +49,17 @@ def put_together(x, y):
             last = i[0]
     return toreturn
 
+def plot_corrcoef (y_plot, *args, **kwargs):
+    """
+    The purpose is to plot the graph of the scores on the state scales with the 
+        correlation coefficients
+    Input:
+        y_plot: scores of each scale {0:'State', 1:'BIGLS or GRCS', 2:'GRCS or oldState'}
+    Output:
+        None
+    """
+    return 0
+
 def plot_conv(y_plot, *args, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
@@ -64,7 +75,7 @@ def plot_conv(y_plot, *args, **kwargs):
 
     plt.close()
     fig, axis = plt.subplots(2,1, dpi=dp, figsize=plotsize)
-#    plt.figure(1, dpi=dp, figsize=plotsize)
+    fig.tight_layout()
     
 #    one_to_one = np.arange(0, max(y_plot[0]))
     one_to_one = np.arange(0,5)
@@ -84,11 +95,8 @@ def plot_conv(y_plot, *args, **kwargs):
     axis[0].set_title("Convergent relationship between the State Scale and existing scales"+
               " for "+ kwargs.get("savefig"))
     axis[0].legend()
-#    plt.savefig(my_path + "/figures/State_vs_"+kwargs.get("savefig")+".png")
     
-
-#    plt.close()
-#    plt.figure(2, dpi=150, figsize=(8,4))
+    
     for i in range(len(y_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
@@ -99,7 +107,7 @@ def plot_conv(y_plot, *args, **kwargs):
     axis[1].set_xlabel(kwargs.get("x_name"))
     axis[1].set_ylabel(kwargs.get("y_name"))
     axis[1].set_title(kwargs.get("title"))
-    fig.tight_layout()
+    plt.tight_layout()
     plt.savefig(my_path + "/figures/all_scales_and"+kwargs.get("savefig")+".png")
     
     return 0
@@ -275,6 +283,7 @@ def cronbach_alpha(items):
     https://github.com/anthropedia/tci-stats/blob/master/tcistats/__init__.py
     
     Used as a measure of internal validity
+    input: items (DataFrame)
     """
 #    items = pandas.DataFrame(items)
     items_count = items.shape[1]
