@@ -49,15 +49,29 @@ def put_together(x, y):
             last = i[0]
     return toreturn
 
-def plot_corrcoef (y_plot, *args, **kwargs):
+def plot_corrcoef (y_plot, names, *args, **kwargs):
     """
     The purpose is to plot the graph of the scores on the state scales with the 
         correlation coefficients
     Input:
         y_plot: scores of each scale {0:'State', 1:'BIGLS or GRCS', 2:'GRCS or oldState'}
+        names: names of each state scale (i.e. state, bigls, grcs, and old state)
+        arguments are : bigls scores
+        key words are :
+                luck = yes
+                y_name :  y axis name
+                x_name : x axis name
+                title : title name
+                savefig : name of figure to be saved
     Output:
         None
     """
+    #transpose of matrix so that
+        #rows -> variables
+        #columns -> single observations
+    if (kwargs.get("luck") == "yes"):
+        print("not important rn")
+    pdb.set_trace()
     return 0
 
 def plot_conv(y_plot, *args, **kwargs):
@@ -143,8 +157,6 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
         bigls_y = score(bigls_x)
         y_plot = [state_y, bigls_y, grcs_y, old_state_y]
         
-
-#    plot_conv(state_x, state_y, bigls_x, bigls_y)
     
     #BIGLS only covers luck and GRCS, State 2.0 and State 1.0 cover other
         #erroneous beliefs
@@ -159,6 +171,10 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
               title=kwargs.get("title"), luck=kwargs.get("luck"),
               savefig = kwargs.get("savefig"))
         
+    plot_conv(y_plot, names,
+              y_name=kwargs.get("y"), x_name=kwargs.get("x"),
+              title=kwargs.get("title"), savefig = kwargs.get("savefig"))
+    
     plot_conv(y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"), savefig = kwargs.get("savefig"))

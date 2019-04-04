@@ -147,6 +147,8 @@ def main():
             y="State Scores", title="Linear Regression on participant scores of " +
             "Gambling Related Expectancies", luck="no", savefig="Gambling"+
             " related expectancies")
+    
+
 # =============================================================================
 #     Dropping questions: part of efa procedure
 # =============================================================================
