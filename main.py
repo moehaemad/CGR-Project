@@ -77,6 +77,15 @@ def main():
     correlation = util.trim(x.corr(), 0.3)
     multicollinearity_corr = util.trim(x.corr(), 0.8)
     
+    #Get Cronbach alpha coefficients
+    state2_cr = util.cronbach_alpha(read.iloc[:,47:72])
+    bigls_cr = util.cronbach_alpha(read.iloc[:, 10:21])
+    grcs_cr = util.cronbach_alpha(read.iloc[:, 23:45])
+    print (state2_cr)
+    print (bigls_cr)
+    print (grcs_cr)
+    
+    
     
     #Do convergent analysis on State Scale 2.0
     """Recall old State Scale instead of State Scale 2.0 """
@@ -84,6 +93,8 @@ def main():
     indices = list(range(0,47))
     indices.extend(list(range(73,117)))
     x_1 = util.drop_question(state_1,indices)
+    state1_cr = util.cronbach_alpha(state_1.iloc[:, 47:72])
+    print (state1_cr)
     
     #indices for luck in old state scale
     state1_indices = [[1,13,26], [4,10,12,20], [2,3,7,11,14,22,23], [5,8,15],
