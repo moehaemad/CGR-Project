@@ -49,7 +49,7 @@ def put_together(x, y):
             last = i[0]
     return toreturn
 
-def plot_corrcoef (y_plot, names, *args, **kwargs):
+def plot_corrcoef (y_plot, names, **kwargs):
     """
     The purpose is to plot the graph of the scores on the state scales with the 
         correlation coefficients
@@ -69,6 +69,17 @@ def plot_corrcoef (y_plot, names, *args, **kwargs):
     #transpose of matrix so that
         #rows -> variables
         #columns -> single observations
+        
+    state = np.asarray(y_plot[0])
+    bigls = np.asarray (y_plot[1])
+    grcs = np.asarray (y_plot[2])
+    state_bigls = np.correlate(state, bigls, "same")
+    state_grcs = np.correlate(state, grcs, "same")
+    
+    xticks = np.arange(0,state.shape[0])
+    #plotting
+    plt.scatter(xticks, state_bigls, color ='red')
+    plt.scatter(xticks, state_grcs, color='blue')
     if (kwargs.get("luck") == "yes"):
         print("not important rn")
     pdb.set_trace()
@@ -86,29 +97,23 @@ def plot_conv(y_plot, *args, **kwargs):
     """
     colours = ['blue','red', 'purple', 'black']
     line_names = args[0]
-
+    
     plt.close()
     fig, axis = plt.subplots(2,1, dpi=dp, figsize=plotsize)
     fig.tight_layout()
     
-#    one_to_one = np.arange(0, max(y_plot[0]))
-    one_to_one = np.arange(0,5)
-    if (kwargs.get("luck") == "yes"):
-        #BIGLS shows high scores on luck (which is expected) but the graph is 
-        #   out of range as a result so make the one-to-one relationship clear
-        luck = put_together(y_plot[0], y_plot[1])
-        one_to_one = np.arange(0, max(luck[:][1]))
+    values = []
+    state = y_plot[0]
+    for i in y_plot[1:-1]:
+        values.append(np.corrcoef(state, i)[0][1])
+    #Don't plot a correlation between the State 2.0 and itself and since the 
+    #   participants are different for state 2.0 and state it doesn't make sense
+    #   to correlate the two together.
+    axis[0].bar(line_names[1:-1], values)
+    axis[0].set_ylabel("Correlation coefficient value with State scale")
+    axis[0].set_title("The correlation between the State scale and other scales")
+    pdb.set_trace()
         
-    for i in range(len(y_plot[1:])):
-        toreturn = put_together(y_plot[0], y_plot[i])
-        axis[0].plot(toreturn[:][0], toreturn[:][1], color=colours[i], 
-                 label=line_names[i])
-    axis[0].plot(one_to_one, one_to_one, color='pink', label='Ideal relationship')
-    axis[0].set_xlabel("Score on State Scale")
-    axis[0].set_ylabel(r"Score on i $\epsilon$ {state scales}")
-    axis[0].set_title("Convergent relationship between the State Scale and existing scales"+
-              " for "+ kwargs.get("savefig"))
-    axis[0].legend()
     
     """ Fit a polynomial line against the distribution of participant scores"""
     for i in range(len(y_plot)):
@@ -171,10 +176,6 @@ def convergent_analysis(df, ind_state, ind_grcs=[],
               title=kwargs.get("title"), luck=kwargs.get("luck"),
               savefig = kwargs.get("savefig"))
         
-    plot_conv(y_plot, names,
-              y_name=kwargs.get("y"), x_name=kwargs.get("x"),
-              title=kwargs.get("title"), savefig = kwargs.get("savefig"))
-    
     plot_conv(y_plot, names,
               y_name=kwargs.get("y"), x_name=kwargs.get("x"),
               title=kwargs.get("title"), savefig = kwargs.get("savefig"))
