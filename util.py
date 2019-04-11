@@ -49,42 +49,6 @@ def put_together(x, y):
             last = i[0]
     return toreturn
 
-def plot_corrcoef (y_plot, names, **kwargs):
-    """
-    The purpose is to plot the graph of the scores on the state scales with the 
-        correlation coefficients
-    Input:
-        y_plot: scores of each scale {0:'State', 1:'BIGLS or GRCS', 2:'GRCS or oldState'}
-        names: names of each state scale (i.e. state, bigls, grcs, and old state)
-        arguments are : bigls scores
-        key words are :
-                luck = yes
-                y_name :  y axis name
-                x_name : x axis name
-                title : title name
-                savefig : name of figure to be saved
-    Output:
-        None
-    """
-    #transpose of matrix so that
-        #rows -> variables
-        #columns -> single observations
-        
-    state = np.asarray(y_plot[0])
-    bigls = np.asarray (y_plot[1])
-    grcs = np.asarray (y_plot[2])
-    state_bigls = np.correlate(state, bigls, "same")
-    state_grcs = np.correlate(state, grcs, "same")
-    
-    xticks = np.arange(0,state.shape[0])
-    #plotting
-    plt.scatter(xticks, state_bigls, color ='red')
-    plt.scatter(xticks, state_grcs, color='blue')
-    if (kwargs.get("luck") == "yes"):
-        print("not important rn")
-    pdb.set_trace()
-    return 0
-
 def plot_conv(y_plot, *args, **kwargs):
     """
     Plot all of the variables in the two lists in the form of x matrix and y
