@@ -110,7 +110,7 @@ def plot_conv(y_plot, *args, **kwargs):
               " for "+ kwargs.get("savefig"))
     axis[0].legend()
     
-    
+    """ Fit a polynomial line against the distribution of participant scores"""
     for i in range(len(y_plot)):
         y = y_plot[i]
         x_range = np.arange(len(y))
