@@ -1,0 +1,38 @@
+# =============================================================================
+# Indexes are... FOR STATE 2.0
+# BIGLS questions: 10 -> 21
+#     BIGLS total: 22
+# 
+# GRCS questions: 23 -> 45
+#     GRCS total: 46
+# 
+# State questions: 47 -> 72
+#     State total: 73
+# 
+# Gambling experiences questions: 74 -> 87
+#     Gambling experiences total: 88
+# 
+# Written responses: 89
+# =============================================================================
+# =============================================================================
+# Indexes are... FOR PILOT DATA
+# luck questions: 10->21
+# luck total: 22
+    #BIGLS scale (belief in good luck)
+# GRCS(gambling related cognition scale): 23->45
+# GRCS total: 46
+    #variety: total score -> captures gambling related cognitions
+# State_con: 47->72
+# State_con total: 73
+    #scale being measured (state conviction)
+# GE_total: 74->87
+# GE_total total: 88
+    #gamblign experiences scale (state experiences with gambling)''
+# ...and this questions: 89->114
+# total: 115
+# Written responses: 116
+# Indexes that aren't important for correlation matrix 
+# [0,1,2,3,4,5,6,7,8,9,22,46,73,88,115]
+    
+    #Delete b questions
+# =============================================================================

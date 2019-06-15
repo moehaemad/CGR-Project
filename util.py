@@ -66,6 +66,7 @@ def plot_conv(y_plot, *args, **kwargs):
     fig, axis = plt.subplots(2,1, dpi=dp, figsize=plotsize)
     fig.tight_layout()
     
+    
     values = []
     state = y_plot[0]
     for i in y_plot[1:-1]:
@@ -73,10 +74,10 @@ def plot_conv(y_plot, *args, **kwargs):
     #Don't plot a correlation between the State 2.0 and itself and since the 
     #   participants are different for state 2.0 and state it doesn't make sense
     #   to correlate the two together.
-    axis[0].bar(line_names[1:-1], values)
-    axis[0].set_ylabel("Correlation coefficient value with State scale")
-    axis[0].set_title("The correlation between the State scale and other scales")
-    pdb.set_trace()
+    axis[0].bar(line_names[1:-1], values, width=0.5, align='center')
+    axis[0].set_ylabel("Correlation coefficient value")
+    axis[0].set_title("The correlation between the State scale and other scales for "
+        + kwargs.get("savefig"))
         
     
     """ Fit a polynomial line against the distribution of participant scores"""
@@ -92,6 +93,7 @@ def plot_conv(y_plot, *args, **kwargs):
     axis[1].set_title(kwargs.get("title"))
     plt.tight_layout()
     plt.savefig(my_path + "/figures/all_scales_and"+kwargs.get("savefig")+".png")
+    pdb.set_trace()
     
     return 0
 
